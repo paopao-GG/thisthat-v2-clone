@@ -1,0 +1,90 @@
+{
+  "fetchedAt": "2026-01-15T20:23:19.147Z",
+  "timeRange": {
+    "from": "2026-01-15T20:23:19.147Z",
+    "to": "2026-01-18T20:23:19.147Z"
+  },
+  "totalMarkets": 10,
+  "markets": [
+    {
+      "id": "0x8a42783537d0be89fd4b8d2312c6687a7b71f205453aa3427e21a817cfbba5f5",
+      "question": "XRP Up or Down - January 15, 3:20PM-3:25PM ET",
+      "endDate": "2026-01-15T20:25:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x087d99fbd3a5ff0585b21d4f4bce49011f0db5c1ec97cce08d283f5a179ce3c6",
+      "question": "Ethereum Up or Down - January 15, 3:20PM-3:25PM ET",
+      "endDate": "2026-01-15T20:25:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x082fc470ff97f07ee3d529d80df36be6125f60dfc65729924e010c020ecc2cdf",
+      "question": "Bitcoin Up or Down - January 15, 3:20PM-3:25PM ET",
+      "endDate": "2026-01-15T20:25:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x4550179ed482cf7cc1a6f35bd3dcd0424f32c9e0f11817c9f0de0467a3eaef32",
+      "question": "Solana Up or Down - January 15, 3:20PM-3:25PM ET",
+      "endDate": "2026-01-15T20:25:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0xec27d200cae57bbefc95ef99005d2738c6140c2853618a5ff3db4ffe5a2c25f2",
+      "question": "Solana Up or Down - January 15, 3:25PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x324c3e1d4061cd02d75cc84ac48f02a89232e47f2be878ebe3c53690f6a94080",
+      "question": "Ethereum Up or Down - January 15, 3:25PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x453ae32d3503d3d12274319c333c22a09a565bfc5ff7351241d123215646d22b",
+      "question": "XRP Up or Down - January 15, 3:15PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "3283.874276",
+      "liquidity": "6456.315",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x8930dac25bc2290b2e7243d2845d91c45083452c0658efc83f761c7ea1f60178",
+      "question": "Bitcoin Up or Down - January 15, 3:15PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "100974.498203",
+      "liquidity": "33547.9423",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x82d02a8cd04952738a795823463c6ce47b69ac551bd6f04a9f5e2015e21173a2",
+      "question": "Bitcoin Up or Down - January 15, 3:25PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "0",
+      "liquidity": "0",
+      "outcomes": "[\"Up\", \"Down\"]"
+    },
+    {
+      "id": "0x132ba5a39718961f2c65d76eea30de9bceb735cbf4bccd3d7c7e8739453b871d",
+      "question": "Ethereum Up or Down - January 15, 3:15PM-3:30PM ET",
+      "endDate": "2026-01-15T20:30:00Z",
+      "volume": "17988.601223",
+      "liquidity": "27018.7817",
+      "outcomes": "[\"Up\", \"Down\"]"
+    }
+  ]
+}

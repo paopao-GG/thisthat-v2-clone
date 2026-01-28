@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" style="color-scheme: dark;">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Predict outcomes. Win big. The social prediction market." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://thisthat.xyz/" />
+    <meta property="og:title" content="ThisThat" />
+    <meta property="og:description" content="Predict outcomes. Win big. The social prediction market." />
+    <meta property="og:image" content="https://thisthat.xyz/og-preview.png" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://thisthat.xyz/" />
+    <meta name="twitter:title" content="ThisThat" />
+    <meta name="twitter:description" content="Predict outcomes. Win big. The social prediction market." />
+    <meta name="twitter:image" content="https://thisthat.xyz/og-preview.png" />
+
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=aeonik@700,400,500,300&display=swap" />
+    <title>ThisThat</title>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G85T3JGZ1C"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Determine environment
+      var isProd = window.location.hostname === 'thisthat.xyz';
+
+      // Configure GA4
+      gtag('config', 'G-G85T3JGZ1C', {
+        send_page_view: true,
+        cookie_flags: 'SameSite=None;Secure',
+        debug_mode: !isProd
+      });
+    </script>
+    <!-- End Google Analytics 4 -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

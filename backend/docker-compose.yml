@@ -1,0 +1,203 @@
+version: '3.8'
+
+# Common configuration anchors to eliminate DRY violations
+x-common-backend: &common-backend
+  build:
+    context: .
+    dockerfile: Dockerfile
+  env_file:
+    - .env
+  networks:
+    - thisthat-network
+  restart: unless-stopped
+  depends_on:
+    postgres-markets:
+      condition: service_healthy
+    postgres-users:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+x-common-env: &common-env
+  NODE_ENV: production
+  HOST: 0.0.0.0
+  MARKETS_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-changeme}@postgres-markets:5432/thisthat_markets?schema=public
+  USERS_DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-changeme}@postgres-users:5432/thisthat_users?schema=public
+  DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-changeme}@postgres-users:5432/thisthat_users?schema=public
+  REDIS_URL: redis://redis:6379
+
+services:
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: thisthat-nginx
+    ports:
+      - "8080:80"
+#      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro  # SSL certificates (create this directory)
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      backend:
+        condition: service_started  # Changed to service_started - nginx can start while backend health checks are running
+    networks:
+      - thisthat-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Auth Service (single instance - handles all OAuth)
+  auth-service:
+    <<: *common-backend
+    container_name: thisthat-auth-service
+    environment:
+      <<: *common-env
+      PORT: 3002
+      WORKER_MODE: false  # API mode - no background jobs
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3002/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  # Backend API (scalable - use docker-compose up --scale backend=5)
+  backend:
+    <<: *common-backend
+    # Remove container_name to allow multiple instances when scaling
+    # container_name: thisthat-backend
+    environment:
+      <<: *common-env
+      PORT: 3001
+      WORKER_MODE: false  # API mode - no background jobs
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    # Deploy configuration for load balancing (OPTIMIZED for 5000 users)
+    deploy:
+      replicas: 5  # Scale API servers as needed (only applies in swarm mode)
+      update_config:
+        parallelism: 2
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Worker - handles ALL background jobs and Polymarket API calls
+  worker:
+    <<: *common-backend
+    container_name: thisthat-worker
+    environment:
+      <<: *common-env
+      PORT: 3003
+      WORKER_MODE: true  # Worker mode - runs background jobs
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3003/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    deploy:
+      replicas: 1  # ALWAYS 1 - never scale workers (only applies in swarm mode)
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # PostgreSQL - Markets Database
+  postgres-markets:
+    image: postgres:15-alpine
+    container_name: thisthat-postgres-markets
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - POSTGRES_DB=thisthat_markets
+    volumes:
+      - postgres-markets-data:/var/lib/postgresql/data
+    networks:
+      - thisthat-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # PostgreSQL - Users Database
+  postgres-users:
+    image: postgres:15-alpine
+    container_name: thisthat-postgres-users
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - POSTGRES_DB=thisthat_users
+    volumes:
+      - postgres-users-data:/var/lib/postgresql/data
+    networks:
+      - thisthat-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Redis (OPTIMIZED for 5000 users)
+  redis:
+    image: redis:7-alpine
+    container_name: thisthat-redis
+    # INCREASED maxmemory from 256mb to 512mb for 5000 users
+    # Added tcp-keepalive for connection stability
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru --tcp-keepalive 60 --timeout 300
+    volumes:
+      - redis-data:/data
+    networks:
+      - thisthat-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres-markets-data:
+  postgres-users-data:
+  redis-data:
+  nginx-logs:
+
+networks:
+  thisthat-network:
+    driver: bridge
+

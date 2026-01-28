@@ -1,0 +1,858 @@
+/* Profile Summary Card Styles */
+
+.profile-summary-card {
+  background: linear-gradient(135deg, rgba(15, 15, 20, 0.5) 0%, rgba(20, 20, 28, 0.45) 50%, rgba(25, 25, 32, 0.4) 100%);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: visible;
+}
+
+.profile-summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+.profile-avatar {
+  background: #f5f5f5;
+}
+
+.profile-connect-wallet-button {
+  background: linear-gradient(135deg, #4A90B8 0%, #3D6B8A 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #f5f5f5;
+  box-shadow: 0 4px 16px rgba(74, 144, 184, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.profile-connect-wallet-button:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(74, 144, 184, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.profile-connect-wallet-button:not(:hover) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-stat-divider {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Profile Stats Container */
+.profile-stats-container {
+  display: flex;
+  justify-content: flex-end;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-stats-wrapper {
+  display: flex;
+  gap: 0;
+  width: 100%;
+}
+
+.profile-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.profile-stat-item:first-child {
+  padding-left: 0;
+}
+
+.profile-stat-item:last-child {
+  padding-right: 0;
+}
+
+.profile-stat-label {
+  font-size: 0.625rem;
+  color: rgba(245, 245, 245, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.profile-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f5f5f5;
+  white-space: nowrap;
+}
+
+
+@media (min-width: 768px) {
+  .profile-stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 639px) {
+  .profile-summary-card {
+    border-radius: 16px;
+  }
+  
+  .wallet-section-card {
+    border-radius: 16px;
+  }
+  
+  .profile-stat-divider {
+    border-right: none;
+  }
+}
+
+/* Stack stats vertically on mobile screens (461px and below) */
+@media (max-width: 461px) {
+  .profile-stats-container {
+    justify-content: flex-start;
+    overflow-x: visible;
+  }
+
+  .profile-stats-wrapper {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .profile-stat-item {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.625rem 0;
+  }
+
+  .profile-stat-item:first-child {
+    padding-top: 0;
+  }
+
+  .profile-stat-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .profile-stat-label {
+    font-size: 0.625rem;
+    margin-bottom: 0;
+  }
+
+  .profile-stat-value {
+    font-size: 0.875rem;
+  }
+}
+
+/* Profile User Info - Centered layout for mobile screens (461px and below) */
+@media (max-width: 461px) {
+  .profile-user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* gap: 1rem; */
+    margin-bottom: 1rem;
+    overflow: visible;
+  }
+
+  .profile-user-info-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .profile-user-info-container .profile-avatar {
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .profile-user-details h1 {
+    text-align: center;
+  }
+
+  /* Create a flex container for referral link and connect wallet button side by side */
+  .profile-actions-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: visible;
+    margin-top: 0.5rem;
+  }
+
+  /* Show tooltip on all screen sizes */
+
+  /* Keep Connect Wallet button at original width */
+  .profile-actions-container > div:last-child {
+    flex: 0 0 auto !important;
+    width: auto !important;
+  }
+
+  .profile-actions-container > div:last-child > div:first-child {
+    width: auto !important;
+  }
+
+  .profile-actions-container > div:last-child button {
+    width: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+}
+
+/* Profile User Info - Horizontal layout for screens above 461px (original layout) */
+@media (min-width: 462px) {
+  .profile-user-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0;
+    overflow: visible;
+  }
+  
+  .profile-user-info-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+    min-width: 0;
+    flex: 1;
+  }
+  
+  .profile-user-info-container .profile-avatar {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+  
+  
+  @media (min-width: 768px) {
+    .profile-user-info-container .profile-avatar {
+      width: 5rem;
+      height: 5rem;
+      font-size: 1.875rem;
+    }
+  }
+  
+  .profile-user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  
+  .profile-user-details h1 {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .profile-user-details button {
+    text-align: left;
+  }
+
+  /* On desktop, profile-actions-container displays buttons side by side */
+  .profile-actions-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+.profile-pnl-container {
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.35) 0%, rgba(8, 8, 12, 0.45) 50%, rgba(12, 12, 16, 0.4) 100%);
+  backdrop-filter: blur(70px) saturate(180%) brightness(0.95) contrast(1.05);
+  -webkit-backdrop-filter: blur(70px) saturate(180%) brightness(0.95) contrast(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.04),
+    inset 0 0 30px rgba(255, 255, 255, 0.015);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-pnl-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+.profile-time-filter-slider {
+  background: rgba(74, 144, 184, 0.15);
+  border: 1px solid rgba(74, 144, 184, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1),
+  width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left, width;
+}
+
+.profile-time-filter-button {
+  background: transparent;
+  background-color: transparent;
+}
+
+.profile-chart-stroke {
+  stroke-width: clamp(0.5px, 0.03vw + 0.3px, 0.8px);
+}
+
+/* Chart responsive styles */
+.chart-desktop-area,
+.chart-desktop-line,
+.chart-desktop-markers,
+.chart-desktop-peak {
+  display: none;
+}
+
+.chart-mobile-area,
+.chart-mobile-line,
+.chart-mobile-markers,
+.chart-mobile-peak {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .chart-desktop-area,
+  .chart-desktop-line,
+  .chart-desktop-markers,
+  .chart-desktop-peak {
+    display: block;
+  }
+  
+  .chart-mobile-area,
+  .chart-mobile-line,
+  .chart-mobile-markers,
+  .chart-mobile-peak {
+    display: none;
+  }
+}
+
+/* Positions Table Styles */
+
+.positions-filter-slider {
+  background: rgba(74, 144, 184, 0.15);
+  border: 1px solid rgba(74, 144, 184, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1),
+  width 250ms cubic-bezier(0.4, 0, 0.2, 1),
+  opacity 150ms ease-in-out;
+  will-change: left, width, opacity;
+}
+
+.positions-filter-button {
+  background: transparent;
+  background-color: transparent;
+}
+
+.positions-filter-button-active {
+  border: none;
+  border-radius: 8px;
+}
+
+.positions-filter-button-inactive {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 25, 0.2);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 8px;
+}
+
+.positions-filter-button-inactive:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 20, 25, 0.3);
+}
+
+.positions-search-input {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #f5f5f5;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.positions-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 20, 25, 0.5);
+}
+
+.positions-search-input:not(:focus) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.positions-table-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+.positions-table-header {
+  border-bottom: 1px solid rgba(245, 245, 245, 0.08);
+  color: rgba(245, 245, 245, 0.6);
+}
+
+.positions-table-row {
+  border-bottom: 1px solid rgba(245, 245, 245, 0.05);
+  background: transparent;
+}
+
+.positions-table-row:hover {
+  background: rgba(245, 245, 245, 0.03);
+}
+
+.positions-placeholder-avatar {
+  background: rgba(245, 245, 245, 0.08);
+}
+
+.positions-prediction-yes,
+.positions-prediction-this {
+  color: #4ade80;
+}
+
+.positions-prediction-no,
+.positions-prediction-that {
+  color: #f87171;
+}
+
+.positions-prediction-default {
+  color: #f5f5f5;
+}
+
+.positions-pnl-positive {
+  color: #4ade80 !important;
+}
+
+.positions-pnl-negative {
+  color: #f87171 !important;
+}
+
+.positions-pnl-neutral {
+  color: #f5f5f5 !important;
+}
+
+/* Transparent background for filter buttons */
+.positions-filter-button-transparent {
+  background: transparent;
+  background-color: transparent;
+}
+
+/* Referral Modal Styles */
+.referral-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* iOS safe area padding */
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}
+
+.referral-modal {
+  background: rgba(12, 14, 20, 0.85);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  /* Reduced max-height for better iOS display */
+  max-height: 85vh;
+}
+
+.referral-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%);
+  border-radius: 28px 28px 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.referral-modal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 28px;
+}
+
+.referral-code-container {
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.35) 0%, rgba(8, 8, 12, 0.45) 50%, rgba(12, 12, 16, 0.4) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.04),
+    inset 0 0 30px rgba(255, 255, 255, 0.015);
+  position: relative;
+  overflow: hidden;
+}
+
+.referral-code-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+.referral-copy-button {
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.35) 0%, rgba(8, 8, 12, 0.45) 50%, rgba(12, 12, 16, 0.4) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.04),
+    inset 0 0 30px rgba(255, 255, 255, 0.015);
+  position: relative;
+  overflow: hidden;
+}
+
+.referral-copy-button:hover {
+  background: rgba(20, 20, 25, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.referral-copy-button:not(:hover) {
+  background: rgba(20, 20, 25, 0.4);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.referral-share-button {
+  background: linear-gradient(135deg, #4A90B8 0%, #3D6B8A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #f5f5f5;
+  box-shadow: 0 4px 16px rgba(74, 144, 184, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Daily Credits Section Styles */
+.daily-credits-timer-button {
+  background: rgba(15, 15, 20, 0.6);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(74, 144, 184, 0.3);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(74, 144, 184, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(74, 144, 184, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.daily-credits-timer-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(74, 144, 184, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.daily-credits-timer-button:hover {
+  border-color: rgba(74, 144, 184, 0.5);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(74, 144, 184, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(74, 144, 184, 0.25);
+}
+
+.daily-credits-timer-button:disabled {
+  border-color: rgba(74, 144, 184, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(74, 144, 184, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 0 30px rgba(74, 144, 184, 0.1);
+}
+
+/* Position Detail Modal Styles */
+
+.position-detail-select-side-button {
+  background: rgba(20, 20, 25, 0.4) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: rgba(245, 245, 245, 0.6) !important;
+  transition: all 0.2s ease !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+.position-detail-select-side-button:hover {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(20, 20, 25, 0.5) !important;
+  color: rgba(245, 245, 245, 0.8) !important;
+}
+
+.position-detail-select-side-button-active-this {
+  background: rgba(20, 83, 45, 0.5) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.4) !important;
+  border-radius: 12px !important;
+  color: rgba(74, 222, 128, 1) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.position-detail-select-side-button-active-that {
+  background: rgba(83, 20, 20, 0.5) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  border-radius: 12px !important;
+  color: rgba(248, 113, 113, 1) !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.position-detail-amount-container {
+  background: rgba(8, 10, 15, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.position-detail-amount-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.position-detail-amount-container input {
+  color: #f5f5f5;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.position-detail-amount-container input::placeholder {
+  color: rgba(245, 245, 245, 0.4);
+}
+
+.position-detail-your-position-card {
+  background: linear-gradient(135deg, rgba(5, 5, 8, 0.35) 0%, rgba(8, 8, 12, 0.45) 50%, rgba(12, 12, 16, 0.4) 100%) !important;
+  backdrop-filter: blur(70px) saturate(180%) brightness(0.95) contrast(1.05) !important;
+  -webkit-backdrop-filter: blur(70px) saturate(180%) brightness(0.95) contrast(1.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 2px 4px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.04),
+    inset 0 0 30px rgba(255, 255, 255, 0.015) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.position-detail-your-position-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+.position-detail-buy-more-button {
+  background: rgba(34, 197, 94, 0.3) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border: 1px solid rgba(34, 197, 94, 0.4) !important;
+  border-radius: 12px !important;
+  color: #4ade80 !important;
+  transition: all 0.2s ease !important;
+}
+
+.position-detail-buy-more-button:hover {
+  background: rgba(34, 197, 94, 0.4) !important;
+  border-color: rgba(34, 197, 94, 0.5) !important;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2) !important;
+}
+
+.position-detail-sell-button {
+  background: rgba(20, 20, 25, 0.4) !important;
+  backdrop-filter: blur(30px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  color: rgba(160, 160, 160, 1) !important;
+  transition: all 0.2s ease !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+.position-detail-sell-button:hover {
+  background: rgba(20, 20, 25, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(245, 245, 245, 0.8) !important;
+}
+
+.position-detail-sell-warning-box {
+  background: rgba(239, 68, 68, 0.15) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 12px !important;
+}
+
+/* Hide scrollbar in position detail modal while keeping scroll functionality */
+.referral-modal {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.referral-modal::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Profile Chart Animation */
+.profile-chart-line {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: drawChart 1.2s ease-out forwards;
+}
+
+.profile-chart-clip-rect {
+  width: 0;
+  animation: revealChart 1.2s ease-out forwards;
+}
+
+.profile-chart-markers {
+  opacity: 0;
+  animation: fadeInMarkers 0.4s ease-out 1s forwards;
+}
+
+@keyframes drawChart {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes revealChart {
+  to {
+    width: 200px;
+  }
+}
+
+@keyframes fadeInMarkers {
+  to {
+    opacity: 1;
+  }
+}
+

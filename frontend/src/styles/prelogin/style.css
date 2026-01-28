@@ -1,0 +1,171 @@
+.prelogin-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  opacity: 1;
+  /* Base dark color as fallback */
+  background-color: #0a1214;
+  /* Prevent Safari scrolling */
+  overflow: hidden;
+  -webkit-overflow-scrolling: auto;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* Banner background image */
+.prelogin-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--banner-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Vignette and subtle glow overlay */
+.prelogin-page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    /* Bottom gradient for button area */
+    linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 30%),
+    /* Top subtle darkening */
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, transparent 20%),
+    /* Vignette for atmospheric depth */
+    radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Page entering from loading screen */
+.prelogin-page.prelogin-from-loading {
+  animation: preloginPageEnter 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+@keyframes preloginPageEnter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.prelogin-hero {
+  /* Keep the title + logo grouped together */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Vertical space between title and logo (shared, so they stay centered as one unit) */
+  gap: 1.75rem;
+  /* Lift the entire block (title + logo) higher on the screen on all devices */
+  margin-top: -18vh;
+  /* Subtle text glow for sleek look */
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+/* (Hero no longer animates vertically; only fading is applied to inner content) */
+
+.prelogin-fade-target {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(6px);
+}
+
+.prelogin-fade-in {
+  animation: preloginFadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes preloginFadeInUp {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(6px);
+  }
+  40% {
+    opacity: 0.6;
+    filter: blur(1.5px);
+    transform: translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .prelogin-page {
+    padding-top: 0.5rem;
+  }
+}
+
+/* Safari-specific fixes to prevent scrolling */
+@supports (-webkit-touch-callout: none) {
+  .prelogin-page {
+    /* Use dvh (dynamic viewport height) for Safari */
+    height: 100dvh;
+    max-height: 100dvh;
+    position: fixed;
+    overflow: hidden;
+  }
+}
+
+/* Prevent body scroll when on prelogin */
+html:has(.prelogin-page),
+body:has(.prelogin-page) {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+/* Sleek minimalist button with subtle dark accent */
+.prelogin-page .prelogin-button button {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+  letter-spacing: 3px;
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 1rem 2.5rem;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prelogin-page .prelogin-button button:hover {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: none;
+  letter-spacing: 4px;
+}
+
+.prelogin-page .prelogin-button button:active {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Hide the default glow effect */
+.prelogin-page .prelogin-button .btn-premium-glow {
+  display: none;
+}

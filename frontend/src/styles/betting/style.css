@@ -1,0 +1,1418 @@
+/* Toast styles - tap anywhere on toast to dismiss */
+/* react-hot-toast containers */
+[data-sonner-toast],
+[role="status"],
+.go3958317564 {
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Swipeable Card Styles */
+
+.swipeable-card-container {
+  left: 50%;
+  visibility: visible;
+  touch-action: none;
+  overscroll-behavior: none;
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: none;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  /* Container should not force card to stretch */
+  height: auto;
+  max-height: 100%;
+}
+
+/* Card shake animation for failed bets */
+@keyframes card-shake {
+  0%, 100% { transform: translate(calc(-50% + 0px), 0) rotate(0deg); }
+  10% { transform: translate(calc(-50% + -15px), 0) rotate(-2deg); }
+  20% { transform: translate(calc(-50% + 15px), 0) rotate(2deg); }
+  30% { transform: translate(calc(-50% + -12px), 0) rotate(-1.5deg); }
+  40% { transform: translate(calc(-50% + 12px), 0) rotate(1.5deg); }
+  50% { transform: translate(calc(-50% + -8px), 0) rotate(-1deg); }
+  60% { transform: translate(calc(-50% + 8px), 0) rotate(1deg); }
+  70% { transform: translate(calc(-50% + -4px), 0) rotate(-0.5deg); }
+  80% { transform: translate(calc(-50% + 4px), 0) rotate(0.5deg); }
+  90% { transform: translate(calc(-50% + -2px), 0) rotate(0deg); }
+}
+
+.card-shake {
+  animation: card-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.swipeable-card {
+  background: linear-gradient(165deg, rgba(18, 18, 26, 0.95) 0%, rgba(12, 12, 18, 0.98) 100%);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: 24px;
+  border: none;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 8px 25px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  /* Card should fit its content, not stretch */
+  height: auto;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.swipeable-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.swipeable-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 25%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 24px;
+}
+
+.swipeable-card-hint-left {
+  background: linear-gradient(165deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.2) 100%);
+  border: 3px solid rgba(16, 185, 129, 0.6);
+  box-shadow:
+    0 0 60px rgba(16, 185, 129, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(16, 185, 129, 0.1);
+}
+
+.swipeable-card-hint-right {
+  background: linear-gradient(165deg, rgba(244, 63, 94, 0.15) 0%, rgba(225, 29, 72, 0.2) 100%);
+  border: 3px solid rgba(244, 63, 94, 0.6);
+  box-shadow:
+    0 0 60px rgba(244, 63, 94, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(244, 63, 94, 0.1);
+}
+
+.swipeable-card-hint-up {
+  background: linear-gradient(165deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.2) 100%);
+  border: 3px solid rgba(59, 130, 246, 0.6);
+  box-shadow:
+    0 0 60px rgba(59, 130, 246, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(59, 130, 246, 0.1);
+}
+
+.swipeable-card-hint-down {
+  background: linear-gradient(165deg, rgba(168, 85, 247, 0.15) 0%, rgba(139, 92, 246, 0.2) 100%);
+  border: 3px solid rgba(168, 85, 247, 0.6);
+  box-shadow:
+    0 0 60px rgba(168, 85, 247, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
+/* Card shadows based on index - Tinder style */
+.swipeable-card-shadow-0-default {
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.6),
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.swipeable-card-shadow-0-left {
+  box-shadow:
+    0 0 80px rgba(16, 185, 129, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.swipeable-card-shadow-0-right {
+  box-shadow:
+    0 0 80px rgba(244, 63, 94, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 8px 25px rgba(244, 63, 94, 0.3);
+}
+
+.swipeable-card-shadow-0-up {
+  box-shadow:
+    0 0 80px rgba(59, 130, 246, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.swipeable-card-shadow-0-down {
+  box-shadow:
+    0 0 80px rgba(168, 85, 247, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 8px 25px rgba(168, 85, 247, 0.3);
+}
+
+.swipeable-card-shadow-1 {
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0.55;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  filter: brightness(0.85);
+}
+
+.swipeable-card-shadow-2 {
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0.35;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  filter: brightness(0.75);
+}
+
+/* Swipe hints - Tinder style bold labels */
+.swipe-hint-left {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.3) 100%);
+  border-radius: 8px;
+}
+
+.swipe-hint-left-text {
+  color: #10b981;
+  text-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.swipe-hint-right {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.25) 0%, rgba(225, 29, 72, 0.3) 100%);
+  border-radius: 8px;
+}
+
+.swipe-hint-right-text {
+  color: #f43f5e;
+  text-shadow: 0 0 30px rgba(244, 63, 94, 0.8);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.swipe-hint-up {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.3) 100%);
+  border-radius: 8px;
+}
+
+.swipe-hint-down {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(139, 92, 246, 0.3) 100%);
+  border-radius: 8px;
+}
+
+/* Market question container - Dark frosted glass */
+.market-question-container {
+  background: rgba(10, 12, 18, 0.65);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.market-question-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+/* Image containers - Dark frosted glass */
+.image-container {
+  background: rgba(10, 12, 18, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+
+.image-container img {
+  width: 100%;
+  min-width: 0;
+}
+
+.image-overlay {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.image-brightness {
+  filter: brightness(0.95);
+}
+
+.image-aspect-ratio {
+  aspect-ratio: 16/9;
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  background: rgba(10, 12, 18, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.image-aspect-ratio img {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  object-fit: cover;
+}
+
+/* Responsive text sizes based on screen height */
+/* Default sizes */
+.market-question-title {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.market-detail-text {
+  font-size: 0.75rem;
+}
+
+.odds-label-text {
+  font-size: 0.75rem;
+}
+
+.odds-percentage-text {
+  font-size: 0.75rem;
+}
+
+.control-button-text {
+  font-size: 0.75rem;
+}
+
+.amount-label-text {
+  font-size: 0.75rem;
+}
+
+.amount-value-text {
+  font-size: 1rem;
+}
+
+.odds-graph-container {
+  height: 3rem;
+}
+
+/* Smaller text for short screens */
+@media (max-height: 700px) {
+  .market-question-title {
+    font-size: 0.9375rem;
+    line-height: 1.25;
+  }
+
+  .market-detail-text {
+    font-size: 0.6875rem;
+  }
+
+  .odds-label-text {
+    font-size: 0.6875rem;
+  }
+
+  .odds-percentage-text {
+    font-size: 0.6875rem;
+  }
+
+  .control-button-text {
+    font-size: 0.6875rem;
+  }
+
+  .amount-label-text {
+    font-size: 0.6875rem;
+  }
+
+  .amount-value-text {
+    font-size: 0.9375rem;
+  }
+
+  .odds-graph-container {
+    height: 2.5rem;
+  }
+}
+
+.image-placeholder-icon {
+  font-size: 2.5rem;
+}
+
+.image-placeholder-text {
+  font-size: 0.75rem;
+}
+
+@media (max-height: 700px) {
+  .image-placeholder-icon {
+    font-size: 2rem;
+  }
+  
+  .image-placeholder-text {
+    font-size: 0.6875rem;
+  }
+}
+
+@media (max-height: 750px) {
+  .image-aspect-ratio {
+    aspect-ratio: 2/1;
+  }
+
+  .two-image-container {
+    aspect-ratio: 2.5/1;
+  }
+}
+
+@media (max-height: 600px) {
+  .image-placeholder-icon {
+    font-size: 1.75rem;
+  }
+
+  .image-placeholder-text {
+    font-size: 0.625rem;
+  }
+}
+
+/* Card content padding - responsive */
+.swipeable-card-content {
+  padding: 0.625rem 0.75rem;
+}
+
+@media (max-height: 700px) {
+  .swipeable-card-content {
+    padding: 0.5rem 0.625rem;
+  }
+}
+
+/* Responsive control buttons - only adjust for smaller screens */
+@media (max-height: 700px) {
+  .this-control,
+  .that-control {
+    padding: 0.5rem 0.625rem;
+  }
+
+  .amount-display {
+    padding: 0.5rem 0.625rem;
+  }
+
+  .market-question-container {
+    padding: 0.5rem 0.625rem;
+    margin-bottom: 0.375rem;
+  }
+}
+
+/* Option overlay */
+.option-overlay-left {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%,
+  rgba(0, 0, 0, 0.4) 50%,
+  transparent 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.option-overlay-right {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%,
+   rgba(0, 0, 0, 0.4) 50%,
+   transparent 100%);
+}
+
+/* THIS/THAT controls */
+.this-control {
+  background: rgba(10, 18, 14, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(34, 197, 94, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.this-control::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(34, 197, 94, 0.25) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.this-control-active {
+  background: rgba(15, 35, 25, 0.8);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  border-radius: 14px;
+  box-shadow:
+    0 0 30px rgba(34, 197, 94, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(34, 197, 94, 0.2);
+}
+
+.this-control-text {
+  color: #4ade80;
+}
+
+.that-control {
+  background: rgba(18, 12, 12, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(239, 68, 68, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.that-control::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(239, 68, 68, 0.25) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.that-control-active {
+  background: rgba(35, 15, 15, 0.8);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 14px;
+  box-shadow:
+    0 0 30px rgba(239, 68, 68, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(239, 68, 68, 0.2);
+}
+
+.that-control-text {
+  color: #f87171;
+}
+
+/* Amount display */
+.amount-display {
+  background: rgba(10, 12, 18, 0.65);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.amount-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.amount-display:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(15, 18, 25, 0.75);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Modal */
+.bet-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.bet-modal {
+  background: rgba(12, 14, 20, 0.85);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.bet-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%);
+  border-radius: 28px 28px 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bet-modal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 28px;
+}
+
+.bet-amount-input-container {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(8, 10, 15, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.bet-amount-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.bet-amount-input {
+  color: #f5f5f5;
+}
+
+.bet-amount-button {
+  background: rgba(15, 18, 25, 0.8);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f5f5f5;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bet-amount-button:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 24, 32, 0.85);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.bet-button {
+  background: #f5f5f5;
+  color: #0a0a0a;
+  border: 1px solid rgba(245, 245, 245, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
+  0 2px 8px rgba(0, 0, 0, 0.3),
+  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.bet-button-disabled {
+  background: rgba(15, 18, 25, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  color: rgba(245, 245, 245, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.bet-button-enabled {
+  pointer-events: auto;
+}
+
+/* Betting Page */
+.betting-page-container {
+  overflow: visible;
+  overflow-x: hidden;
+  /* Keep swipe gestures away from the screen edges to reduce browser back/forward swipes. */
+  padding-left: max(8px, env(safe-area-inset-left)) !important;
+  padding-right: max(8px, env(safe-area-inset-right)) !important;
+}
+
+.category-filter-wrapper {
+  margin-bottom: 32px !important;
+}
+
+.betting-card-stack {
+  perspective: 1200px;
+  overflow: visible;
+  position: relative;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+/* Two image layout */
+.two-image-container {
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  aspect-ratio: 2/1;
+}
+
+/* Bet amount input width - dynamic, but min/max in CSS */
+.bet-amount-input-dynamic {
+  min-width: 60px;
+  max-width: 250px;
+}
+
+/* Max button in modal */
+.bet-max-button {
+  background: rgba(15, 18, 25, 0.8);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f5f5f5;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bet-max-button:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 24, 32, 0.85);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.bet-button-enabled {
+  pointer-events: auto;
+}
+
+/* Betting Controls Styles */
+.betting-controls-option-container {
+  background: transparent;
+}
+
+.betting-controls-this-button {
+  background: rgba(10, 18, 14, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 12px;
+  color: #4ade80;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(34, 197, 94, 0.1);
+}
+
+.betting-controls-that-button {
+  background: rgba(18, 12, 12, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  color: #f87171;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(239, 68, 68, 0.1);
+}
+
+.betting-controls-amount-button {
+  background: rgba(10, 12, 18, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.betting-controls-modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.betting-controls-modal {
+  background: rgba(12, 14, 20, 0.85);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+.betting-controls-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.2) 80%,
+    transparent 100%);
+  border-radius: 28px 28px 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.betting-controls-modal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 28px;
+}
+
+.betting-controls-modal-this-button {
+  background: rgba(15, 35, 25, 0.85);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(34, 197, 94, 0.15);
+}
+
+.betting-controls-modal-this-button:hover {
+  background: rgba(20, 45, 32, 0.9);
+  transform: scale(1.02);
+  box-shadow:
+    0 0 25px rgba(34, 197, 94, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(34, 197, 94, 0.2);
+}
+
+.betting-controls-modal-this-button-inactive {
+  background: rgba(10, 18, 14, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(34, 197, 94, 0.08);
+}
+
+.betting-controls-modal-this-button-inactive:hover {
+  background: rgba(12, 22, 17, 0.8);
+  transform: scale(1.02);
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(34, 197, 94, 0.1);
+}
+
+.betting-controls-modal-that-button {
+  background: rgba(35, 15, 15, 0.85);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(239, 68, 68, 0.15);
+}
+
+.betting-controls-modal-that-button:hover {
+  background: rgba(45, 20, 20, 0.9);
+  transform: scale(1.02);
+  box-shadow:
+    0 0 25px rgba(239, 68, 68, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(239, 68, 68, 0.2);
+}
+
+.betting-controls-modal-that-button-inactive {
+  background: rgba(18, 12, 12, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(239, 68, 68, 0.08);
+}
+
+.betting-controls-modal-that-button-inactive:hover {
+  background: rgba(22, 14, 14, 0.8);
+  transform: scale(1.02);
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(239, 68, 68, 0.1);
+}
+
+.betting-controls-modal-this-text-active {
+  color: #ffffff;
+}
+
+.betting-controls-modal-this-text-inactive {
+  color: #4ade80;
+}
+
+.betting-controls-modal-that-text-active {
+  color: #ffffff;
+}
+
+.betting-controls-modal-that-text-inactive {
+  color: #f87171;
+}
+
+.betting-controls-amount-input-container {
+  background: rgba(8, 10, 15, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.betting-controls-amount-input-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 100%);
+  pointer-events: none;
+}
+
+.betting-controls-amount-input {
+  color: #f5f5f5;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.betting-controls-increment-button {
+  background: rgba(15, 18, 25, 0.8);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.betting-controls-increment-button:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 24, 32, 0.85);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.betting-controls-place-bet-button {
+  background: linear-gradient(135deg, #4A90B8 0%, #3D6B8A 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 4px 16px rgba(74, 144, 184, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.betting-controls-place-bet-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5BA0C8 0%, #4D7B9A 100%);
+  box-shadow:
+    0 6px 20px rgba(74, 144, 184, 0.4),
+    0 3px 10px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.betting-controls-place-bet-button-disabled {
+  background: rgba(15, 18, 25, 0.6);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: rgba(245, 245, 245, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0.6;
+}
+
+/* Two image layout */
+.two-image-container {
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  aspect-ratio: 2/1;
+}
+
+/* Bet amount input width - dynamic, but min/max in CSS */
+.bet-amount-input-dynamic {
+  min-width: 60px;
+  max-width: 250px;
+}
+
+/* Max button in modal */
+.bet-max-button {
+  background: rgba(15, 18, 25, 0.8);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #f5f5f5;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bet-max-button:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 24, 32, 0.85);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.bet-button-enabled {
+  pointer-events: auto;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes onboardingPageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboarding-page-enter {
+  animation: onboardingPageEnter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes onboardingContentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboarding-header-enter {
+  animation: onboardingContentEnter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s forwards;
+  opacity: 0;
+}
+
+.onboarding-content-enter {
+  animation: onboardingContentEnter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s forwards;
+  opacity: 0;
+}
+
+.onboarding-bottom-enter {
+  animation: onboardingContentEnter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s forwards;
+  opacity: 0;
+}
+
+/* Step transition animations */
+@keyframes onboardingStepForward {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.98);
+  }
+}
+
+@keyframes onboardingStepBackward {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px) scale(0.98);
+  }
+}
+
+@keyframes onboardingStepEnterForward {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes onboardingStepEnterBackward {
+  from {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.onboarding-step-content {
+  will-change: opacity, transform;
+}
+
+.onboarding-step-forward {
+  animation: onboardingStepForward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-step-backward {
+  animation: onboardingStepBackward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-step-enter {
+  animation: onboardingStepEnterForward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  opacity: 0;
+}
+
+.onboarding-step-enter.onboarding-step-enter-backward {
+  animation: onboardingStepEnterBackward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-bottom-forward {
+  animation: onboardingStepForward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-bottom-backward {
+  animation: onboardingStepBackward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-text-forward {
+  animation: onboardingStepForward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-text-backward {
+  animation: onboardingStepBackward 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.onboarding-text-enter {
+  animation: onboardingTextEnter 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes onboardingTextEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes onboardingSwipe {
+  0% {
+    transform: translate(calc(-50% + 0px), 0px) rotate(0deg) scale(1);
+  }
+  15% {
+    transform: translate(calc(-50% + -200px), 0px) rotate(-15deg) scale(1);
+  }
+  20% {
+    transform: translate(calc(-50% + -200px), 0px) rotate(-15deg) scale(1);
+  }
+  35% {
+    transform: translate(calc(-50% + 0px), 0px) rotate(0deg) scale(1);
+  }
+  40% {
+    transform: translate(calc(-50% + 0px), 0px) rotate(0deg) scale(1);
+  }
+  55% {
+    transform: translate(calc(-50% + 200px), 0px) rotate(15deg) scale(1);
+  }
+  60% {
+    transform: translate(calc(-50% + 200px), 0px) rotate(15deg) scale(1);
+  }
+  75% {
+    transform: translate(calc(-50% + 0px), 0px) rotate(0deg) scale(1);
+  }
+  100% {
+    transform: translate(calc(-50% + 0px), 0px) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes onboardingSwipeHintLeft {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes onboardingSwipeHintRight {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.onboarding-page .betting-card-stack > .swipeable-card-container:first-child {
+  animation: onboardingSwipe 4s ease-in-out infinite !important;
+  pointer-events: none !important;
+}
+
+.onboarding-page .betting-card-stack > .swipeable-card-container:first-child .swipeable-card {
+  position: relative;
+  animation: onboardingSwipeCard 4s ease-in-out infinite;
+}
+
+.onboarding-page .betting-card-stack > .swipeable-card-container:first-child .swipeable-card::before {
+  content: 'THIS';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #4ade80;
+  pointer-events: none;
+  z-index: 11;
+  animation: onboardingSwipeHintLeft 4s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+}
+
+.onboarding-page .betting-card-stack > .swipeable-card-container:first-child .swipeable-card::after {
+  content: 'THAT';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f87171;
+  pointer-events: none;
+  z-index: 11;
+  animation: onboardingSwipeHintRight 4s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(248, 113, 113, 0.5);
+}
+
+.onboarding-card-animated .swipeable-card {
+  animation: onboardingSwipeCard 4s ease-in-out infinite;
+}
+
+@keyframes onboardingSwipeCard {
+  0% {
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.4) 0%, rgba(8, 8, 12, 0.5) 50%, rgba(12, 12, 16, 0.45) 100%);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  15% {
+    background: linear-gradient(135deg, rgba(5, 10, 8, 0.4) 0%, rgba(8, 18, 12, 0.5) 50%, rgba(12, 60, 30, 0.45) 100%);
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(34, 197, 94, 0.18), 0 0 0 1px rgba(34, 197, 94, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -2px 4px rgba(255, 255, 255, 0.06), inset 0 0 40px rgba(34, 197, 94, 0.06);
+  }
+  20% {
+    background: linear-gradient(135deg, rgba(5, 10, 8, 0.4) 0%, rgba(8, 18, 12, 0.5) 50%, rgba(12, 60, 30, 0.45) 100%);
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(34, 197, 94, 0.18), 0 0 0 1px rgba(34, 197, 94, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -2px 4px rgba(255, 255, 255, 0.06), inset 0 0 40px rgba(34, 197, 94, 0.06);
+  }
+  35% {
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.4) 0%, rgba(8, 8, 12, 0.5) 50%, rgba(12, 12, 16, 0.45) 100%);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  40% {
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.4) 0%, rgba(8, 8, 12, 0.5) 50%, rgba(12, 12, 16, 0.45) 100%);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  55% {
+    background: linear-gradient(135deg, rgba(10, 5, 8, 0.4) 0%, rgba(18, 8, 12, 0.5) 50%, rgba(60, 12, 15, 0.45) 100%);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(239, 68, 68, 0.18), 0 0 0 1px rgba(239, 68, 68, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -2px 4px rgba(255, 255, 255, 0.06), inset 0 0 40px rgba(239, 68, 68, 0.06);
+  }
+  60% {
+    background: linear-gradient(135deg, rgba(10, 5, 8, 0.4) 0%, rgba(18, 8, 12, 0.5) 50%, rgba(60, 12, 15, 0.45) 100%);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(239, 68, 68, 0.18), 0 0 0 1px rgba(239, 68, 68, 0.12), inset 0 2px 4px rgba(255, 255, 255, 0.12), inset 0 -2px 4px rgba(255, 255, 255, 0.06), inset 0 0 40px rgba(239, 68, 68, 0.06);
+  }
+  75% {
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.4) 0%, rgba(8, 8, 12, 0.5) 50%, rgba(12, 12, 16, 0.45) 100%);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  100% {
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.4) 0%, rgba(8, 8, 12, 0.5) 50%, rgba(12, 12, 16, 0.45) 100%);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+@keyframes growUpwards {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+

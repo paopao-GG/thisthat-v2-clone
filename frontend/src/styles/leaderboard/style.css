@@ -1,0 +1,287 @@
+/* Leaderboard Table Styles */
+
+/* Frosted Glass Theme - matching SwipeableCard */
+.leaderboard-frosted-glass {
+  background: linear-gradient(135deg, rgba(15, 15, 20, 0.5) 0%, rgba(20, 20, 28, 0.45) 50%, rgba(25, 25, 32, 0.4) 100%);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.leaderboard-frosted-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.18), transparent);
+  pointer-events: none;
+}
+
+@keyframes growUpwards {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leaderboard-scrollable {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.leaderboard-scrollable::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.leaderboard-scrollable::-webkit-scrollbar-track {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 4px;
+}
+
+.leaderboard-scrollable::-webkit-scrollbar-thumb {
+  background: rgba(245, 245, 245, 0.3);
+  border-radius: 4px;
+}
+
+.leaderboard-scrollable::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 245, 245, 0.5);
+}
+
+/* Horizontal scrollbar styling */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 8px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(245, 245, 245, 0.3);
+  border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 245, 245, 0.5);
+}
+
+@media (max-width: 640px) {
+  .leaderboard-scrollable {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Time filter container */
+.time-filter-container {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Sliding gradient background */
+.time-filter-slider {
+  background: linear-gradient(90deg, #4A90B8 0%, #3D6B8A 100%);
+  transition: left 250ms cubic-bezier(0.4, 0, 0.2, 1), width 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left, width;
+}
+
+/* Filter button */
+.time-filter-button {
+  background: transparent;
+  background-color: transparent;
+}
+
+/* Search input */
+.leaderboard-search-input {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #f5f5f5;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.leaderboard-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(20, 20, 25, 0.5);
+}
+
+.leaderboard-search-input:not(:focus) {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Table container */
+.leaderboard-table-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 245, 245, 0.3) transparent;
+}
+
+.leaderboard-table-wrapper {
+  max-height: calc(100vh - 350px);
+  min-height: 250px;
+  min-width: 600px;
+  width: 100%;
+}
+
+/* Table header */
+.leaderboard-table-header {
+  border-bottom: 1px solid rgba(245, 245, 245, 0.08);
+  min-width: 600px;
+}
+
+.leaderboard-rank-column {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.leaderboard-user-column {
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+}
+
+.leaderboard-header-text {
+  color: #f5f5f5;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), 
+  -1px -1px 2px rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.05em;
+}
+
+.leaderboard-sort-button {
+  color: #f5f5f5;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), 
+  -1px -1px 2px rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.02em;
+  justify-content: flex-end;
+}
+
+.leaderboard-sort-button:hover {
+  color: #5A9FC7;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), 
+  -1px -1px 3px rgba(90, 159, 199, 0.3);
+}
+
+.leaderboard-sort-button-active {
+  color: #4A90B8;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), 
+  -1px -1px 3px rgba(74, 144, 184, 0.4);
+}
+
+.leaderboard-sort-icon {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), 
+  -1px -1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-sort-button-active .leaderboard-sort-icon {
+  color: #4A90B8;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), 
+  -1px -1px 3px rgba(74, 144, 184, 0.4);
+}
+
+/* Table rows */
+.leaderboard-table-rows {
+  border-top: 1px solid rgba(245, 245, 245, 0.05);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 245, 245, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.leaderboard-table-row {
+  border-bottom: 1px solid rgba(245, 245, 245, 0.05);
+  background: transparent;
+  min-width: 600px;
+}
+
+.leaderboard-table-row:hover {
+  background: rgba(245, 245, 245, 0.03);
+}
+
+/* Medal icon */
+.medal-icon {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+}
+
+.medal-text {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* Transparent background for filter buttons */
+.time-filter-button-transparent {
+  background: transparent;
+  background-color: transparent;
+}
+
+/* Hide scrollbar for category filter */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.leaderboard-podium-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.leaderboard-podium-container > div {
+  max-width: 100%;
+}
+
+@media (max-width: 425px) {
+  .leaderboard-podium-container {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (min-width: 493px) and (max-width: 767px) {
+  .leaderboard-podium-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .leaderboard-podium-container > div {
+    max-width: 120px;
+    min-width: 120px;
+  }
+}
+

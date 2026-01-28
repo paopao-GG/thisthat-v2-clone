@@ -1,0 +1,325 @@
+// This is your Prisma schema file for THISTHAT V1
+// V1 Scope: Credits-based prediction market system
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - Core user data with credits
+model User {
+  id                  String   @id @default(uuid()) @db.Uuid
+  username            String   @unique @db.VarChar(50)
+  email               String   @unique @db.VarChar(255)
+  name                String?  @db.VarChar(100) // Display name
+  passwordHash        String?  @map("password_hash") @db.VarChar(255) // Optional - OAuth users don't have passwords
+  referralCode        String   @unique @default(uuid()) @map("referral_code") @db.VarChar(36)
+  referredById        String?  @map("referred_by_id") @db.Uuid
+  referralCount       Int      @default(0) @map("referral_count")
+  referralCreditsEarned Decimal @default(0.00) @map("referral_credits_earned") @db.Decimal(18, 2)
+
+  // Credits system (V1 only)
+  creditBalance       Decimal  @default(1000.00) @map("credit_balance") @db.Decimal(18, 2)
+  availableCredits    Decimal  @default(1000.00) @map("available_credits") @db.Decimal(18, 2) // Credits available for trading
+  expendedCredits     Decimal  @default(0.00) @map("expended_credits") @db.Decimal(18, 2) // Total credits spent
+  totalVolume         Decimal  @default(0.00) @map("total_volume") @db.Decimal(18, 2)
+  overallPnL          Decimal  @default(0.00) @map("overall_pnl") @db.Decimal(18, 2)
+
+  // Leaderboard rankings
+  rankByPnL           Int?     @map("rank_by_pnl")
+  rankByVolume        Int?     @map("rank_by_volume")
+
+  // Daily rewards tracking
+  lastDailyRewardAt   DateTime? @map("last_daily_reward_at") @db.Timestamp()
+  consecutiveDaysOnline Int    @default(1) @map("consecutive_days_online") // Track consecutive login days
+  lastLoginAt         DateTime? @map("last_login_at") @db.Timestamp() // Track last login for consecutive days
+
+  // Timestamps
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt           DateTime @updatedAt @map("updated_at") @db.Timestamp()
+
+  // Relations
+  bets                Bet[]
+  creditTransactions  CreditTransaction[]
+  dailyRewards        DailyReward[]
+  refreshTokens       RefreshToken[]
+  stockHoldings       StockHolding[]
+  stockTransactions   StockTransaction[]
+  creditPurchases     CreditPurchase[]
+  referredUsers       User[]   @relation("UserReferrals")
+  referredBy          User?    @relation("UserReferrals", fields: [referredById], references: [id])
+  oauthAccounts       OAuthAccount[]
+
+  @@index([username])
+  @@index([email])
+  @@index([rankByPnL])
+  @@index([rankByVolume])
+  @@index([referralCode])
+  @@map("users")
+}
+
+// OAuth Account model - Stores OAuth provider accounts (X, Google, etc.)
+model OAuthAccount {
+  id                String   @id @default(uuid()) @db.Uuid
+  userId            String   @map("user_id") @db.Uuid
+  provider          String   @db.VarChar(50) // 'x', 'google', etc.
+  providerAccountId String  @map("provider_account_id") @db.VarChar(255) // X user ID
+  username          String?  @db.VarChar(100) // X username
+  email             String?  @db.VarChar(255)
+  accessToken       String?  @map("access_token") @db.Text
+  refreshToken      String? @map("refresh_token") @db.Text
+  expiresAt         DateTime? @map("expires_at") @db.Timestamp()
+  
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamp()
+  
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@index([provider])
+  @@map("oauth_accounts")
+}
+
+// Market model - Prediction markets (Polymarket + admin-created)
+model Market {
+  id              String   @id @default(uuid()) @db.Uuid
+  polymarketId    String?  @unique @map("polymarket_id") @db.VarChar(255)
+
+  title           String   @db.VarChar(500)
+  description     String?  @db.Text
+
+  // Binary options (THIS/THAT)
+  thisOption      String   @map("this_option") @db.VarChar(255)
+  thatOption      String   @map("that_option") @db.VarChar(255)
+
+  // Odds (e.g., 0.6500 = 65%)
+  thisOdds        Decimal  @map("this_odds") @db.Decimal(5, 4)
+  thatOdds        Decimal  @map("that_odds") @db.Decimal(5, 4)
+
+  // Market metadata
+  liquidity       Decimal? @db.Decimal(18, 2)
+  category        String?  @db.VarChar(100)
+  marketType      String   @default("polymarket") @map("market_type") @db.VarChar(50) // 'credits', 'polymarket', 'cross'
+  status          String   @default("open") @db.VarChar(50) // 'open', 'closed', 'resolved', 'cancelled'
+  resolution      String?  @db.VarChar(50) // 'this', 'that', 'invalid'
+
+  // Timing
+  expiresAt       DateTime? @map("expires_at") @db.Timestamp()
+  resolvedAt      DateTime? @map("resolved_at") @db.Timestamp()
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamp()
+
+  // Relations
+  bets            Bet[]
+
+  @@index([status])
+  @@index([category])
+  @@index([marketType])
+  @@index([polymarketId])
+  @@map("markets")
+}
+
+// Bet model - User bets on markets
+model Bet {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @map("user_id") @db.Uuid
+  marketId         String   @map("market_id") @db.Uuid
+
+  amount           Decimal  @db.Decimal(18, 2)
+  side             String   @db.VarChar(10) // 'this' or 'that'
+  oddsAtBet        Decimal  @map("odds_at_bet") @db.Decimal(5, 4)
+  potentialPayout  Decimal  @map("potential_payout") @db.Decimal(18, 2)
+  actualPayout     Decimal? @map("actual_payout") @db.Decimal(18, 2)
+
+  status           String   @default("pending") @db.VarChar(50) // 'pending', 'won', 'lost', 'cancelled'
+
+  placedAt         DateTime @default(now()) @map("placed_at") @db.Timestamp()
+  resolvedAt       DateTime? @map("resolved_at") @db.Timestamp()
+
+  // Idempotency key to prevent duplicate bets from rapid clicking (optional)
+  idempotencyKey   String?  @map("idempotency_key") @db.VarChar(36)
+
+  // Relations
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market           Market   @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([marketId])
+  @@index([status])
+  @@index([placedAt(sort: Desc)])
+  @@index([userId, idempotencyKey])
+  @@map("bets")
+}
+
+// CreditTransaction model - Audit trail for all credit movements
+model CreditTransaction {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+
+  amount          Decimal  @db.Decimal(18, 2) // Positive = credit, negative = debit
+  transactionType String   @map("transaction_type") @db.VarChar(50) // 'daily_reward', 'bet_placed', 'bet_payout', 'purchase', 'referral_bonus'
+  referenceId     String?  @map("reference_id") @db.Uuid // Bet ID or reward ID
+  balanceAfter    Decimal  @map("balance_after") @db.Decimal(18, 2)
+
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+  @@map("credit_transactions")
+}
+
+// CreditPurchase model - Records of credit top-ups (simulated / in-app purchases)
+model CreditPurchase {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  packageId       String   @map("package_id") @db.VarChar(50)
+  creditsGranted  Decimal  @map("credits_granted") @db.Decimal(18, 2)
+  usdAmount       Decimal  @map("usd_amount") @db.Decimal(18, 2)
+  status          String   @default("completed") @db.VarChar(20) // 'pending', 'completed', 'failed'
+  provider        String?  @db.VarChar(50) // e.g., 'stripe', 'manual'
+  externalId      String?  @map("external_id") @db.VarChar(100)
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("credit_purchases")
+}
+
+// DailyReward model - Track daily login rewards
+model DailyReward {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+
+  creditsAwarded  Decimal  @default(100.00) @map("credits_awarded") @db.Decimal(18, 2)
+  claimedAt       DateTime @default(now()) @map("claimed_at") @db.Timestamp()
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([claimedAt(sort: Desc)])
+  @@map("daily_rewards")
+}
+
+// RefreshToken model - JWT refresh token management
+model RefreshToken {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+
+  tokenHash   String   @unique @map("token_hash") @db.VarChar(255)
+  expiresAt   DateTime @map("expires_at") @db.Timestamp()
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp()
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// Stock model - Tradeable assets in the economy
+model Stock {
+  id              String   @id @default(uuid()) @db.Uuid
+  symbol          String   @unique @db.VarChar(20) // e.g., "THIS", "THAT", "POLY"
+  name            String   @db.VarChar(100)
+  description     String?  @db.Text
+  
+  // Stock economics
+  currentPrice    Decimal  @default(1.00) @map("current_price") @db.Decimal(18, 8) // Price per share
+  totalSupply     Decimal  @default(1000000.00) @map("total_supply") @db.Decimal(18, 2) // Total shares available
+  circulatingSupply Decimal @default(0.00) @map("circulating_supply") @db.Decimal(18, 2) // Shares in circulation
+  marketCap       Decimal  @default(0.00) @map("market_cap") @db.Decimal(18, 2) // currentPrice * circulatingSupply
+  
+  // Multipliers and leverage
+  baseMultiplier  Decimal  @default(1.00) @map("base_multiplier") @db.Decimal(5, 4) // Base price multiplier
+  maxLeverage     Decimal  @default(10.00) @map("max_leverage") @db.Decimal(5, 2) // Maximum leverage allowed
+  
+  // Status
+  status          String   @default("active") @db.VarChar(50) // 'active', 'paused', 'delisted'
+  
+  // Timestamps
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamp()
+  
+  // Relations
+  holdings        StockHolding[]
+  transactions    StockTransaction[]
+  
+  @@index([symbol])
+  @@index([status])
+  @@map("stocks")
+}
+
+// StockHolding model - User's stock portfolio
+model StockHolding {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  stockId         String   @map("stock_id") @db.Uuid
+  
+  // Holdings
+  shares          Decimal  @default(0.00) @db.Decimal(18, 8) // Number of shares owned
+  averageBuyPrice Decimal  @default(0.00) @map("average_buy_price") @db.Decimal(18, 8) // Average purchase price
+  totalInvested   Decimal  @default(0.00) @map("total_invested") @db.Decimal(18, 2) // Total credits invested
+  
+  // Leverage
+  leverage        Decimal  @default(1.00) @db.Decimal(5, 2) // Leverage multiplier (1x to maxLeverage)
+  
+  // Timestamps
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamp()
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stock           Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, stockId])
+  @@index([userId])
+  @@index([stockId])
+  @@map("stock_holdings")
+}
+
+// StockTransaction model - All stock buy/sell transactions with signing
+model StockTransaction {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  stockId         String   @map("stock_id") @db.Uuid
+  
+  // Transaction details
+  type            String   @db.VarChar(20) // 'buy', 'sell'
+  shares          Decimal  @db.Decimal(18, 8) // Number of shares
+  pricePerShare   Decimal  @map("price_per_share") @db.Decimal(18, 8) // Price at transaction time
+  totalAmount      Decimal  @map("total_amount") @db.Decimal(18, 2) // Total credits (shares * price)
+  leverage        Decimal  @default(1.00) @db.Decimal(5, 2) // Leverage used
+  
+  // Transaction signing
+  transactionHash String   @unique @map("transaction_hash") @db.VarChar(255) // Unique transaction signature
+  signedAt        DateTime @default(now()) @map("signed_at") @db.Timestamp()
+  
+  // Balance tracking
+  balanceBefore   Decimal  @map("balance_before") @db.Decimal(18, 2)
+  balanceAfter    Decimal  @map("balance_after") @db.Decimal(18, 2)
+  
+  // Timestamps
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp()
+  
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stock           Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([stockId])
+  @@index([transactionHash])
+  @@index([createdAt(sort: Desc)])
+  @@map("stock_transactions")
+}
+
